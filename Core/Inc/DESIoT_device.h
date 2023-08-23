@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdio.h>
 
 // DESIoT virtual storages
 #define DESIOT_VS0 0x0u
@@ -209,6 +210,7 @@ void DESIoT_frameProssessLoop();
 void DESIOT_Rx1byte(uint8_t rxByte);
 void DESIoT_assignInt(uint8_t VS, size_t integer);
 void DESIoT_assignFloat(uint8_t VS, float fNumber);
+void DESIoT_assignString(uint8_t VS, const char *str);
 void DESIoT_readVS(uint8_t VS);
 void DESIoT_sendDataPacket(const size_t dataLen, uint8_t *data);
 void DESIoT_CalculateTable_CRC16();

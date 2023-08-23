@@ -148,6 +148,7 @@ int main(void)
 
 	DESIoT_begin();
 
+	DESIoT_readVS(DESIOT_VS1);
 	DESIoT_readVS(DESIOT_VS3);
 	DESIoT_readVS(DESIOT_VS4);
 	/* USER CODE END 2 */
@@ -205,6 +206,11 @@ int main(void)
 			DESIoT_assignFloat(DESIOT_VS6, Gb_fAmpValue[1]);
 			DESIoT_assignFloat(DESIOT_VS7, Gb_fVolValue[0]);
 			DESIoT_assignFloat(DESIOT_VS8, Gb_fVolValue[1]);
+
+			//
+			char str[50];
+			sprintf(str, "Current Tick: %ld", lastTick);
+			DESIoT_assignString(DESIOT_VS9, str);
 		}
 
 	}
@@ -472,6 +478,9 @@ DESIOT_MILLIS {
 	return HAL_GetTick();
 }
 
+DESIOT_DEF_EXEC_SYNC(DESIOT_VS1) {
+	testMode = payload[0];
+}
 DESIOT_DEF_EXEC_SYNC(DESIOT_VS3) {
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, payload[0]);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET);

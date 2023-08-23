@@ -79,6 +79,21 @@ void DESIoT_assignFloat(uint8_t VS, float fNumber)
 			(uint8_t*)&dataPacket);
 }
 
+void DESIoT_assignString(uint8_t VS, const char *str)
+{
+	DESIoT_dataPacket_t dataPacket;
+	const size_t strLength = strlen(str) + 1;
+	dataPacket.cmd = DESIOT_CMD_ASSIGN_VIRTUAL_STORAGE;
+	dataPacket.dataLen = DESIOT_ADDITIONAL_DATA_SIZE + sizeof(VS) + strLength; // add bytes of additional data. + 1 null
+
+	// ignore 12-byte data for device ID
+	dataPacket.data[DESIOT_ADDITIONAL_DATA_SIZE] = VS;
+	memcpy(dataPacket.data + DESIOT_ADDITIONAL_DATA_SIZE + 1, str, strLength);
+
+	DESIoT_sendDataPacket(DESIOT_CMD_LEN + DESIOT_DATALEN_LEN + dataPacket.dataLen,
+			(uint8_t*)&dataPacket);
+}
+
 void DESIoT_readVS(uint8_t VS)
 {
 	DESIoT_dataPacket_t dataPacket;
